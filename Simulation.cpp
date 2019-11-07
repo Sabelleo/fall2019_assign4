@@ -10,13 +10,14 @@ Simulation::Simulation()
   studentArrivalTime = 0;
   numStudentsAtTime = 0;
   studentWindowTime = 0;
-  studentIndex = 1;
-  isArrivalTime = false;
-  isNumStudents = false;
-  isWindowTime = false;
+  studentIndex = 0;
   totalNumStudents = 0;
   totalNumWindows = 0;
   currentTime = 0;
+
+  arrivalTime = false;
+  numStudents = false;
+  windowTime = false;
 
   meanWaitTime = 0.0;
   medianWaitTime = 0;
@@ -55,37 +56,41 @@ void Simulation::Read(string name)
   }
 
   //next = arrival, others false
-  isArrivalTime = true;
-  isNumStudents = false;
-  isWindowTime = false;
+  arrivalTime = true;
+  numStudents = false;
+  windowTime = false;
 
   //find student array size
   while (getline(inputStream,line))
   {
-    if (isArrivalTime == true && isNumStudents == false && isWindowTime == false)
+    if (arrivalTime == true && numStudents == false && windowTime == false)
     {
       inputStream >> studentArrivalTime;
-      isArrivalTime = false;
-      isNumStudents = true;
+      arrivalTime = false;
+      numStudents = true;
     }
     //arrival read, now number of students
-    else if (isArrivalTime == false && isNumStudents == true && isWindowTime == false)
+    else if (arrivalTime == false && numStudents == true && windowTime == false)
     {
       inputStream >> numStudentsAtTime;
-      isNumStudents = false;
-      isWindowTime = true;
+      numStudents = false;
+      windowTime = true;
     }
-    //num students read, now wait times
-    else if (isArrivalTime == false && isNumStudents == false && isWindowTime == true)
+    //num students and arrival read, now wait times
+    else if (arrivalTime == false && numStudents == false && windowTime == true)
     {
       inputStream >> studentWindowTime;
       totalNumStudents++; //for the array
       numStudentsAtTime--; //students in this time frame, count em down
       if (numStudentsAtTime <= 0)
       {
-        isWindowTime = false;
-        isArrivalTime = true;
+        windowTime = false;
+        arrivalTime = true;
       }
+    }
+    else
+    {
+      cout << "Something went wrong." << endl;
     }
   }
   //we've read the total num of students
@@ -99,40 +104,40 @@ void Simulation::Read(string name)
   inputStream >> totalNumWindows;
 
   //similar to earlier loop
-  isArrivalTime = true;
-  isNumStudents = false;
-  isWindowTime = false;
+  arrivalTime = true;
+  numStudents = false;
+  windowTime = false;
 
   while (getline(inputStream,line))
   {
-    if (isArrivalTime == true && isNumStudents == false && isWindowTime == false)
+    if (arrivalTime == true && numStudents == false && windowTime == false)
     {
       inputStream >> studentArrivalTime;
-      isArrivalTime = false;
-      isNumStudents = true;
+      arrivalTime = false;
+      numStudents = true;
     }
-    else if (isArrivalTime == false && isNumStudents == true && isWindowTime == false)
+    else if (arrivalTime == false && numStudents == true && windowTime == false)
     {
       inputStream >> numStudentsAtTime;
-      isNumStudents = false;
-      isWindowTime = true;
+      numStudents = false;
+      windowTime = true;
     }
-    else if (isArrivalTime == false && isNumStudents == false && isWindowTime == true)
+    else if (arrivalTime == false && numStudents == false && windowTime == true)
     {
       inputStream >> studentWindowTime;
       numStudentsAtTime--; //students in this time frame, count em down
-      if (studentIndex <= totalNumStudents)
+      if (studentIndex < totalNumStudents)
       {
         //add to student, now that we have the array
-        allStudents[studentIndex-1].arrival = studentArrivalTime;
-        allStudents[studentIndex-1].windowTime = studentWindowTime;
-        allStudents[studentIndex-1].lineIndex = studentIndex;
+        allStudents[studentIndex].arrival = studentArrivalTime;
+        allStudents[studentIndex].windowTime = studentWindowTime;
+        allStudents[studentIndex].lineIndex = studentIndex;
         studentIndex++;
       }
       if (numStudentsAtTime <= 0)
       {
-        isWindowTime = false;
-        isArrivalTime = true;
+        windowTime = false;
+        arrivalTime = true;
       }
     }
   }
@@ -145,7 +150,6 @@ void Simulation::Simulate()
   //do ALL of the loops until file is done
   while(getline(inputStream,line))
   {
-    //not done yet!!!
     ++currentTime;
   }
 }

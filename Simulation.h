@@ -23,9 +23,9 @@ class Simulation
     int numStudentsAtTime;
     int studentWindowTime;
     int studentIndex;
-    bool isArrivalTime; //checking for which case
-    bool isNumStudents; //checking for which case
-    bool isWindowTime; //checking for which case
+    bool arrivalTime; //checking for which case
+    bool numStudents; //checking for which case
+    bool windowTime; //checking for which case
 
     int totalNumStudents;
     int totalNumWindows;
