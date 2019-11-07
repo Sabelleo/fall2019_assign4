@@ -33,20 +33,15 @@ class Simulation
     Queue<Student> sQueue; //queue of students
     Student* allStudents;
     Window* allWindows;
-    Student currStudent;
-    int currStudentPos;
-    bool fileRead; //checking for done
 
     int* studentWaitTimes;
     double meanWaitTime;
 
-    int medianWaitTimePos;
     int medianWaitTime;
     int longestWaitTime;
     int numStudent10min;
 
     int* windowIdleTime;
-    int meanWindowIdleSum;
     double meanWindowIdle;
     int longestWindowIdle;
     int numWindows5min;

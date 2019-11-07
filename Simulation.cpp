@@ -17,15 +17,11 @@ Simulation::Simulation()
   totalNumStudents = 0;
   totalNumWindows = 0;
   currentTime = 0;
-  currStudentPos = 0;
-  fileRead = false;
 
   meanWaitTime = 0.0;
-  medianWaitTimePos = 0;
   medianWaitTime = 0;
   longestWaitTime = 0;
   numStudent10min = 0;
-  meanWindowIdleSum = 0;
   meanWindowIdle = 0.0;
   longestWindowIdle = 0;
   numWindows5min = 0;
@@ -147,7 +143,7 @@ void Simulation::Read(string name)
 void Simulation::Simulate()
 {
   //do ALL of the loops until file is done
-  while(!fileRead)
+  while(getline(inputStream,line))
   {
     //not done yet!!!
     ++currentTime;
